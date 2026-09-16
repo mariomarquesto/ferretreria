@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Ferretería — Sistema de Gestión</title>
+<style>
+  @page { size: A4; margin: 0; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: -apple-system, 'Segoe UI', Roboto, sans-serif;
+    color: #1e293b;
+    line-height: 1.6;
+    background: white;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .page {
+    width: 210mm;
+    min-height: 297mm;
+    padding: 20mm 18mm;
+    page-break-after: always;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .page:last-child { page-break-after: auto; }
+
+  /* ============ PORTADA ============ */
+  .cover {
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 60%, #1e3a8a 100%);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 40mm 20mm;
+    position: relative;
+  }
+  .cover::before {
+    content: '';
+    position: absolute;
+    top: -100mm; right: -100mm;
+    width: 300mm; height: 300mm;
+    background: radial-gradient(circle, rgba(250, 204, 21, 0.15) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .cover::after {
+    content: '';
+    position: absolute;
+    bottom: -80mm; left: -80mm;
+    width: 250mm; height: 250mm;
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .cover-content { position: relative; z-index: 2; }
+  .logo-circle {
+    width: 120px; height: 120px;
+    background: linear-gradient(135deg, #facc15 0%, #f59e0b 100%);
+    border-radius: 30px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 60px;
+    margin: 0 auto 30px;
+    box-shadow: 0 20px 40px rgba(250, 204, 21, 0.3);
+  }
+  .cover h1 {
+    font-size: 46px;
+    font-weight: 800;
+    letter-spacing: -1px;
+    margin-bottom: 15px;
+    line-height: 1.15;
+  }
+  .cover h1 span {
+    background: linear-gradient(135deg, #facc15 0%, #f59e0b 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .cover .subtitle {
+    font-size: 18px;
+    color: #cbd5e1;
+    margin-bottom: 40px;
+    font-weight: 300;
+  }
+  .cover .tagline {
+    display: inline-block;
+    padding: 12px 30px;
+    border: 2px solid #facc15;
+    border-radius: 50px;
+    font-size: 13px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #facc15;
+    font-weight: 600;
+  }
+  .footer-cover {
+    position: absolute;
+    bottom: 20mm;
+    left: 0; right: 0;
+    text-align: center;
+    color: #64748b;
+    font-size: 11px;
+    z-index: 2;
+  }
+
+  /* ============ SECCIONES ============ */
+  .section-title {
+    font-size: 30px;
+    font-weight: 800;
+    color: #0f172a;
+    margin-bottom: 8px;
+    letter-spacing: -0.5px;
+    line-height: 1.2;
+  }
+  .section-subtitle {
+    font-size: 12px;
+    color: #64748b;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 600;
+  }
+  .accent-bar {
+    width: 60px; height: 5px;
+    background: linear-gradient(90deg, #facc15 0%, #f59e0b 100%);
+    border-radius: 3px;
+    margin-bottom: 20px;
+  }
+  .intro-text {
+    font-size: 14px;
+    color: #334155;
+    margin-bottom: 15px;
+    line-height: 1.7;
+  }
+  .highlight {
+    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-weight: 600;
+    color: #78350f;
+  }
+
+  /* ============ FEATURES ============ */
+  .features-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 20px;
+  }
+  .feature-card {
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    border-left: 4px solid #facc15;
+    border-radius: 10px;
+    padding: 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  }
+  .feature-card .icon { font-size: 24px; margin-bottom: 6px; display: block; }
+  .feature-card h3 {
+    font-size: 14px;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 5px;
+  }
+  .feature-card p {
+    font-size: 11.5px;
+    color: #64748b;
+    line-height: 1.5;
+  }
+
+  /* ============ SCREENSHOTS ============ */
+  .screenshot-block { margin-bottom: 18px; page-break-inside: avoid; }
+  .screenshot-block h3 {
+    font-size: 16px;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 5px;
+  }
+  .screenshot-block p {
+    font-size: 11.5px;
+    color: #64748b;
+    margin-bottom: 10px;
+  }
+  .screenshot-block img {
+    width: 100%;
+    border-radius: 10px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    max-height: 110mm;
+    object-fit: contain;
+  }
+
+  /* ============ TABLA ============ */
+  .benefits-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  }
+  .benefits-table th {
+    background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+    color: white;
+    padding: 12px 14px;
+    text-align: left;
+    font-size: 12.5px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+  .benefits-table td {
+    padding: 12px 14px;
+    border-bottom: 1px solid #e2e8f0;
+    font-size: 12.5px;
+    color: #334155;
+    vertical-align: top;
+  }
+  .benefits-table tr:nth-child(even) { background: #f8fafc; }
+  .benefits-table tr:last-child td { border-bottom: none; }
+  .benefits-table td:first-child { font-weight: 700; color: #0f172a; width: 38%; }
+
+  /* ============ CALLOUTS ============ */
+  .callout {
+    background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+    border-left: 5px solid #3b82f6;
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin: 18px 0;
+  }
+  .callout-yellow {
+    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+    border-left-color: #f59e0b;
+  }
+  .callout h4 {
+    font-size: 14px;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .callout p {
+    font-size: 12.5px;
+    color: #334155;
+    line-height: 1.6;
+  }
+
+  /* ============ LISTA CHECK ============ */
+  ul.check-list { list-style: none; padding-left: 0; }
+  ul.check-list li {
+    padding: 5px 0 5px 30px;
+    position: relative;
+    font-size: 12.5px;
+    color: #334155;
+  }
+  ul.check-list li::before {
+    content: '✓';
+    position: absolute;
+    left: 0; top: 4px;
+    width: 20px; height: 20px;
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+  }
+
+  /* ============ BADGES ============ */
+  .custom-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+    color: #1e40af;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+  }
+
+  /* ============ GRID MINI FEATURES ============ */
+  .mini-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-top: 15px;
+  }
+  .mini-grid h3 {
+    font-size: 13px;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 6px;
+  }
+  .mini-grid p {
+    font-size: 11.5px;
+    color: #64748b;
+  }
+
+  /* ============ CIERRE ============ */
+  .closing {
+    background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 60mm 30mm;
+  }
+  .closing h2 {
+    font-size: 34px;
+    font-weight: 800;
+    margin-bottom: 20px;
+    line-height: 1.2;
+  }
+  .closing h2 span {
+    background: linear-gradient(135deg, #facc15 0%, #f59e0b 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .closing p {
+    font-size: 15px;
+    color: #cbd5e1;
+    max-width: 500px;
+    line-height: 1.7;
+    margin-bottom: 30px;
+  }
+  .icon-big { font-size: 80px; margin-bottom: 20px; }
+
+  .contact-box {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(250, 204, 21, 0.3);
+    border-radius: 15px;
+    padding: 25px 35px;
+    margin-top: 15px;
+  }
+  .contact-box p {
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: white;
+  }
+  .contact-box strong { color: #facc15; }
+  .contact-box .item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin: 8px 0;
+    font-size: 14px;
+  }
+
+  /* ============ FOOTER ============ */
+  .page-footer {
+    margin-top: auto;
+    padding-top: 10px;
+    border-top: 1px solid #e2e8f0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 10px;
+    color: #94a3b8;
+  }
+  .page-footer .brand { font-weight: 700; color: #f59e0b; }
+</style>
+</head>
+<body>
+
+<!-- ============================================================ -->
+<!-- PÁGINA 1: PORTADA -->
+<!-- ============================================================ -->
+<div class="page cover">
+  <div class="cover-content">
+    <div class="logo-circle">🔧</div>
+    <h1>Sistema de Gestión<br><span>para Ferretería</span></h1>
+    <p class="subtitle">Control total de tu negocio en una sola plataforma</p>
+    <span class="tagline">Inventario · Ventas · Reportes</span>
+  </div>
+  <div class="footer-cover">Presentación comercial · 2026</div>
+</div>
+
+<!-- ============================================================ -->
+<!-- PÁGINA 2: INTRODUCCIÓN -->
+<!-- ============================================================ -->
+<div class="page">
+  <div class="accent-bar"></div>
+  <div class="section-subtitle">Bienvenido</div>
+  <h2 class="section-title">¿Cansado de gestionar<br>tu ferretería a mano?</h2>
+
+  <p class="intro-text" style="margin-top: 25px;">
+    Sabemos lo que implica llevar una ferretería: controlar cientos de productos, atender
+    a los clientes en el mostrador, reponer stock, calcular precios, registrar compras a
+    proveedores y encima querer saber <span class="highlight">cuánto ganaste realmente al final del mes</span>.
+  </p>
+
+  <p class="intro-text">
+    Nuestro sistema fue diseñado <strong>desde cero pensando en ferreterías</strong>, no es un
+    software genérico adaptado a las apuradas. Entiende conceptos como vender 2.5 metros
+    de cable, manejar packs de 100 tornillos, y actualizar automáticamente el precio de
+    compra cuando recibís mercadería nueva.
+  </p>
+
+  <div class="callout callout-yellow">
+    <h4>💡 Todo se adapta a tu ferretería</h4>
+    <p>
+      Cada ferretería es distinta. Por eso este sistema es <strong>100% personalizable</strong>:
+      podemos agregar campos, modificar reportes, cambiar la estructura de precios, adaptar
+      las formas de pago y todo lo que necesites para que se ajuste a cómo trabajás vos.
+    </p>
+  </div>
+
+  <div class="page-footer">
+    <span class="brand">🔧 Ferretería — Sistema de Gestión</span>
+    <span>Página 2</span>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- PÁGINA 3: MÓDULOS -->
+<!-- ============================================================ -->
+<div class="page">
+  <div class="accent-bar"></div>
+  <div class="section-subtitle">Módulos incluidos</div>
+  <h2 class="section-title">Todo lo que necesitás,<br>en un solo lugar</h2>
+
+  <div class="features-grid">
+    <div class="feature-card">
+      <span class="icon">🛒</span>
+      <h3>Punto de Venta (POS)</h3>
+      <p>Vendé rápido con lector de código de barras, carrito editable y múltiples formas de pago.</p>
+    </div>
+    <div class="feature-card">
+      <span class="icon">📦</span>
+      <h3>Control de Inventario</h3>
+      <p>Stock en tiempo real con alertas automáticas, unidades fraccionadas (m, kg) y packs.</p>
+    </div>
+    <div class="feature-card">
+      <span class="icon">📥</span>
+      <h3>Compras y Proveedores</h3>
+      <p>Registrá compras y el stock se actualiza solo. Precios de compra al día automáticamente.</p>
+    </div>
+    <div class="feature-card">
+      <span class="icon">💰</span>
+      <h3>Historial de Ventas</h3>
+      <p>Todas tus ventas con detalle, filtros, búsqueda y cálculo automático de ganancia.</p>
+    </div>
+    <div class="feature-card">
+      <span class="icon">📊</span>
+      <h3>Dashboard con KPIs</h3>
+      <p>Ventas del día, del mes, ganancia neta, gastos, valor del inventario y más en tiempo real.</p>
+    </div>
+    <div class="feature-card">
+      <span class="icon">📈</span>
+      <h3>Reportes Avanzados</h3>
+      <p>Rentabilidad, flujo de caja, top productos, productos estancados y exportables.</p>
+    </div>
+    <div class="feature-card">
+      <span class="icon">💸</span>
+      <h3>Control de Gastos</h3>
+      <p>Registrá alquiler, sueldos, servicios e impuestos para conocer tu ganancia real.</p>
+    </div>
+    <div class="feature-card">
+      <span class="icon">👥</span>
+      <h3>Clientes y Proveedores</h3>
+      <p>Base completa con historial de compras, cuenta corriente y contacto directo.</p>
+    </div>
+  </div>
+
+  <div class="page-footer">
+    <span class="brand">🔧 Ferretería — Sistema de Gestión</span>
+    <span>Página 3</span>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- PÁGINA 4: DASHBOARD -->
+<!-- ============================================================ -->
+<div class="page">
+  <div class="accent-bar"></div>
+  <div class="section-subtitle">Vista general</div>
+  <h2 class="section-title">Todo tu negocio<br>en una pantalla</h2>
+
+  <p class="intro-text" style="margin-top: 20px;">
+    Al iniciar sesión, lo primero que ves es tu <strong>Panel de Administración</strong>. Ahí
+    tenés los números más importantes del negocio actualizados al instante: cuánto vendiste
+    hoy, cuánto este mes, tu ganancia neta, cuánto gastaste, el valor total de tu inventario
+    y las alertas que necesitan tu atención.
+  </p>
+
+  <div class="screenshot-block">
+    <img src="docs/screenshots/dashboard.png" alt="Dashboard">
+  </div>
+
+  <div class="callout">
+    <h4>📊 Información clave en segundos</h4>
+    <p>
+      Detectá productos estancados, identificá tu top 10 de ventas, y reponé stock antes
+      de quedarte sin mercadería. Todo desde una sola pantalla.
+    </p>
+  </div>
+
+  <div class="page-footer">
+    <span class="brand">🔧 Ferretería — Sistema de Gestión</span>
+    <span>Página 4</span>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- PÁGINA 5: POS -->
+<!-- ============================================================ -->
+<div class="page">
+  <div class="accent-bar"></div>
+  <div class="section-subtitle">Punto de venta</div>
+  <h2 class="section-title">Vendé más rápido,<br>sin errores</h2>
+
+  <p class="intro-text" style="margin-top: 20px;">
+    El mostrador es donde pasás la mayor parte del día. Por eso diseñamos un POS que se
+    adapta a tu ritmo: buscás el producto, lo agregás al carrito, ajustás la cantidad si
+    hace falta y cobrás. Todo en segundos.
+  </p>
+
+  <div class="screenshot-block">
+    <img src="docs/screenshots/pos.png" alt="POS">
+  </div>
+
+  <div class="mini-grid">
+    <div>
+      <h3>⚡ Velocidad</h3>
+      <p>Buscador con autocompletado y lector de código de barras. Escaneás y agregás al instante.</p>
+    </div>
+    <div>
+      <h3>📏 Unidades flexibles</h3>
+      <p>Vendé 2.5 m de cable, 1.75 kg de clavos, o 1 pack de 100 tornillos.</p>
+    </div>
+    <div>
+      <h3>✏️ Carrito editable</h3>
+      <p>Ajustá cantidades, modificá precios, eliminá items antes de cobrar.</p>
+    </div>
+    <div>
+      <h3>💳 Formas de pago</h3>
+      <p>Efectivo, débito, crédito, transferencia o cuenta corriente.</p>
+    </div>
+  </div>
+
+  <div class="page-footer">
+    <span class="brand">🔧 Ferretería — Sistema de Gestión</span>
+    <span>Página 5</span>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- PÁGINA 6: PRODUCTOS -->
+<!-- ============================================================ -->
+<div class="page">
+  <div class="accent-bar"></div>
+  <div class="section-subtitle">Inventario</div>
+  <h2 class="section-title">Tus productos,<br>siempre organizados</h2>
+
+  <p class="intro-text" style="margin-top: 20px;">
+    Cargá cada producto con su código, código de barras, categoría, marca, ubicación física
+    en el local y su presentación. El sistema te avisa cuando un producto está por debajo
+    del stock mínimo, así nunca te quedás sin vender.
+  </p>
+
+  <div class="screenshot-block">
+    <img src="docs/screenshots/productos.png" alt="Productos">
+  </div>
+
+  <h3 style="font-size: 14px; font-weight: 700; color: #0f172a; margin-bottom: 10px;">
+    Cada producto incluye:
+  </h3>
+  <ul class="check-list">
+    <li>Código interno y código de barras</li>
+    <li>Categoría, marca y presentación (Unidad, Pack, Kilogramo, etc.)</li>
+    <li>Precio de compra y de venta con cálculo de margen</li>
+    <li>Stock actual con alerta visual cuando está bajo</li>
+    <li>Ubicación física en el local (Pasillo / Estante)</li>
+  </ul>
+
+  <div class="page-footer">
+    <span class="brand">🔧 Ferretería — Sistema de Gestión</span>
+    <span>Página 6</span>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- PÁGINA 7: COMPRAS -->
+<!-- ============================================================ -->
+<div class="page">
+  <div class="accent-bar"></div>
+  <div class="section-subtitle">Reposición</div>
+  <h2 class="section-title">Comprá a proveedores<br>sin planillas</h2>
+
+  <p class="intro-text" style="margin-top: 20px;">
+    Cuando llega mercadería nueva, cargás la compra al proveedor en segundos: buscás los
+    productos, indicás cantidad y precio de compra, y listo. <strong>El stock se actualiza
+    automáticamente</strong> y el sistema guarda el nuevo precio de costo para futuras ventas.
+  </p>
+
+  <div class="screenshot-block">
+    <img src="docs/screenshots/compras.png" alt="Compras">
+  </div>
+
+  <div class="callout">
+    <h4>⚙️ Automatización inteligente</h4>
+    <p>
+      No tenés que tocar el stock a mano. Al registrar una compra, el sistema suma las
+      cantidades, actualiza el precio de compra, y deja registro en el kardex.
+      Si anulás la compra, revierte todo automáticamente.
+    </p>
+  </div>
+
+  <div class="page-footer">
+    <span class="brand">🔧 Ferretería — Sistema de Gestión</span>
+    <span>Página 7</span>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- PÁGINA 8: VENTAS -->
+<!-- ============================================================ -->
+<div class="page">
+  <div class="accent-bar"></div>
+  <div class="section-subtitle">Historial</div>
+  <h2 class="section-title">Todas tus ventas,<br>con ganancia calculada</h2>
+
+  <p class="intro-text" style="margin-top: 20px;">
+    Cada venta queda registrada con su número único, fecha, cliente, forma de pago y — lo
+    más importante — <strong>cuánto ganaste en esa venta</strong>. Podés filtrar por estado,
+    buscar por cliente o vendedor, y anular si el cliente se arrepiente (el stock vuelve solo).
+  </p>
+
+  <div class="screenshot-block">
+    <img src="docs/screenshots/ventas.png" alt="Ventas">
+  </div>
+
+  <div class="page-footer">
+    <span class="brand">🔧 Ferretería — Sistema de Gestión</span>
+    <span>Página 8</span>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- PÁGINA 9: REPORTES -->
+<!-- ============================================================ -->
+<div class="page">
+  <div class="accent-bar"></div>
+  <div class="section-subtitle">Análisis</div>
+  <h2 class="section-title">Los números que<br>importan de verdad</h2>
+
+  <p class="intro-text" style="margin-top: 20px;">
+    ¿Vendés mucho pero no sabés si ganás? El módulo de reportes te muestra la verdad del
+    negocio: ingresos, costo de mercadería vendida, ganancia bruta, gastos operativos y
+    ganancia neta real. Todo con gráficos fáciles de leer.
+  </p>
+
+  <table class="benefits-table">
+    <thead>
+      <tr>
+        <th>Reporte</th>
+        <th>Qué te dice</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>💰 Rentabilidad</td>
+        <td>Ingresos, CMV, ganancia bruta y neta con márgenes porcentuales</td>
+      </tr>
+      <tr>
+        <td>🏆 Top productos</td>
+        <td>Los 10 productos que más te hacen ganar en los últimos 30 días</td>
+      </tr>
+      <tr>
+        <td>🐌 Productos estancados</td>
+        <td>Los que no se vendieron en 30 días y cuánto capital tenés parado</td>
+      </tr>
+      <tr>
+        <td>💵 Flujo de caja</td>
+        <td>Comparativa mensual de ventas, compras, gastos y ganancia neta</td>
+      </tr>
+      <tr>
+        <td>💳 Formas de pago</td>
+        <td>Cuánto cobrás en efectivo, débito, crédito o cuenta corriente</td>
+      </tr>
+      <tr>
+        <td>📅 Resumen diario</td>
+        <td>Evolución de ventas día por día con gráfico temporal</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="page-footer">
+    <span class="brand">🔧 Ferretería — Sistema de Gestión</span>
+    <span>Página 9</span>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- PÁGINA 10: PERSONALIZACIÓN -->
+<!-- ============================================================ -->
+<div class="page">
+  <div class="accent-bar"></div>
+  <div class="section-subtitle">Hecho a tu medida</div>
+  <h2 class="section-title">Todo se puede<br>modificar</h2>
+
+  <p class="intro-text" style="margin-top: 20px;">
+    No todas las ferreterías son iguales. Algunas venden más materiales de construcción,
+    otras se especializan en electricidad, otras en herramientas. Por eso el sistema
+    se puede <strong>adaptar completamente a tu forma de trabajar</strong>.
+  </p>
+
+  <h3 style="font-size: 15px; font-weight: 700; color: #0f172a; margin: 25px 0 12px;">
+    Ejemplos de personalización:
+  </h3>
+
+  <div style="margin-bottom: 14px;">
+    <span class="custom-badge">+ Campos personalizados</span>
+    <p style="font-size: 12px; color: #64748b; margin-top: 6px;">
+      Agregamos campos específicos de tu rubro: número de serie, código de proveedor,
+      fecha de vencimiento, compatibilidad, etc.
+    </p>
+  </div>
+
+  <div style="margin-bottom: 14px;">
+    <span class="custom-badge">+ Reportes a medida</span>
+    <p style="font-size: 12px; color: #64748b; margin-top: 6px;">
+      ¿Necesitás un reporte específico? Lo diseñamos con las métricas que uses vos.
+    </p>
+  </div>
+
+  <div style="margin-bottom: 14px;">
+    <span class="custom-badge">+ Formas de pago</span>
+    <p style="font-size: 12px; color: #64748b; margin-top: 6px;">
+      Agregamos las formas de pago que uses: cheque, tarjeta propia, pagos mixtos, etc.
+    </p>
+  </div>
+
+  <div style="margin-bottom: 14px;">
+    <span class="custom-badge">+ Facturación electrónica</span>
+    <p style="font-size: 12px; color: #64748b; margin-top: 6px;">
+      Integramos con AFIP para emitir facturas A, B y C automáticamente desde el POS.
+    </p>
+  </div>
+
+  <div style="margin-bottom: 14px;">
+    <span class="custom-badge">+ Multi-sucursal</span>
+    <p style="font-size: 12px; color: #64748b; margin-top: 6px;">
+      Si tenés más de un local, controlás el stock de todos desde un solo sistema.
+    </p>
+  </div>
+
+  <div style="margin-bottom: 14px;">
+    <span class="custom-badge">+ Tienda online</span>
+    <p style="font-size: 12px; color: #64748b; margin-top: 6px;">
+      Tus clientes pueden ver el catálogo y hacer pedidos desde el celular.
+    </p>
+  </div>
+
+  <div class="callout callout-yellow" style="margin-top: 25px;">
+    <h4>🎯 Contanos qué necesitás</h4>
+    <p>
+      Si algo no está en la lista, no significa que no se pueda. Hablamos, entendemos cómo
+      trabajás, y lo adaptamos. <strong>El sistema se ajusta a vos, no al revés.</strong>
+    </p>
+  </div>
+
+  <div class="page-footer">
+    <span class="brand">🔧 Ferretería — Sistema de Gestión</span>
+    <span>Página 10</span>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- PÁGINA 11: CIERRE -->
+<!-- ============================================================ -->
+<div class="page closing">
+  <div class="icon-big">🔧</div>
+  <h2>¿Arrancamos con <span>tu ferretería</span>?</h2>
+  <p>
+    Este sistema fue pensado para que puedas <strong>trabajar mejor, ganar más y dormir tranquilo</strong>.
+    Si te interesa verlo funcionando con tus propios productos, te mostramos una demo personalizada
+    sin compromiso.
+  </p>
+
+  <div class="contact-box">
+    <p style="margin-bottom: 15px; font-size: 15px;">📞 <strong>Contactate</strong></p>
+    <div class="item">📱 WhatsApp: <strong>+54 9 11 XXXX-XXXX</strong></div>
+    <div class="item">✉️ Email: <strong>contacto@tuferreteria.com</strong></div>
+    <div class="item">🌐 Web: <strong>www.tuferreteria.com</strong></div>
+  </div>
+
+  <p style="margin-top: 30px; font-size: 12px; color: #94a3b8;">
+    Adaptable a las necesidades de cada ferretería · Sin costos ocultos · Soporte personalizado
+  </p>
+</div>
+
+</body>
+</html>
