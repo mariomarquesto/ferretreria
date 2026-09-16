@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Test Empleados</title>
+<style>
+  body { font-family: sans-serif; padding: 20px; background: #f3f4f6; }
+  h1 { color: #1e293b; }
+  button { padding: 10px 20px; background: #3b82f6; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; margin-right: 10px; }
+  button:hover { background: #2563eb; }
+  .log { background: #0f172a; color: #10b981; padding: 15px; border-radius: 8px; font-family: monospace; font-size: 12px; white-space: pre-wrap; margin-top: 20px; max-height: 400px; overflow: auto; }
+  .error { color: #ef4444; }
+  table { width: 100%; background: white; border-radius: 8px; margin-top: 20px; border-collapse: collapse; overflow: hidden; }
+  th { background: #1e293b; color: white; padding: 10px; text-align: left; }
+  td { padding: 10px; border-bottom: 1px solid #e5e7eb; }
+</style>
+</head>
+<body>
+  <h1>🧪 Test Empleados</h1>
+  
+  <button onclick="probar()">▶️ Ejecutar Test</button>
+  <button onclick="document.getElementById('log').textContent = ''">🗑️ Limpiar</button>
+  <button onclick="document.getElementById('tabla').innerHTML = ''">🗑️ Limpiar tabla</button>
+
+  <div id="log" class="log">Listo para probar...</div>
+  <div id="tabla"></div>
+
+  <script>
+    const log = (msg, esError = false) => {
+      const el = document.getElementById('log');
+      el.textContent += '\n' + (esError ? '❌ ' : '✅ ') + msg;
+      el.scrollTop = el.scrollHeight;
+    };
+
+    const API = 'http://localhost:4000/api';
+
+    async function probar() {
+      document.getElementById('log').textContent = '⏳ Iniciando...';
+
+      try {
+        // PASO 1: Login
+        log('Haciendo login...');
+        const loginRes = await fetch(`${API}/auth/login`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email: 'admin@ferreteria.com',
+            password: 'admin123'
+          })
+        });
+
+        if (!loginRes.ok) throw new Error('Login falló: ' + loginRes.status);
+        const loginData = await loginRes.json();
+        log('Login OK. Token: ' + loginData.token.substring(0, 30) + '...');
+        log('Usuario: ' + loginData.user.nombre + ' (' + loginData.user.rol + ')');
+
+        const token = loginData.token;
+
+        // PASO 2: Pedir roles
+        log('Pidiendo roles...');
+        const rolesRes = await fetch(`${API}/auth/roles`, {
+          headers: { 'Authorization': 'Bearer ' + token }
+        });
+        if (!rolesRes.ok) throw new Error('Roles falló: ' + rolesRes.status);
+        const roles = await rolesRes.json();
+        log('Roles obtenidos: ' + roles.length);
+
+        // PASO 3: Pedir empleados
+        log('Pidiendo empleados...');
+        const empRes = await fetch(`${API}/auth/empleados`, {
+          headers: { 'Authorization': 'Bearer ' + token }
+        });
+        if (!empRes.ok) throw new Error('Empleados falló: ' + empRes.status);
+        const empleados = await empRes.json();
+        log('Empleados obtenidos: ' + empleados.length);
+
+        // Mostrar tabla
+        mostrarTabla(empleados);
+
+      } catch (err) {
+        log(err.message, true);
+        console.error(err);
+      }
+    }
+
+    function mostrarTabla(empleados) {
+      if (empleados.length === 0) {
+        document.getElementById('tabla').innerHTML = '<p style="margin-top:20px; color:#64748b;">No hay empleados cargados todavía.</p>';
+        return;
+      }
+
+      let html = '<table>';
+      html += '<tr><th>ID</th><th>Nombre</th><th>Email</th><th>Rol</th><th>Teléfono</th><th>DNI</th><th>Activo</th></tr>';
+      
+      empleados.forEach(e => {
+        html += `<tr>
+          <td>${e.id}</td>
+          <td>${e.nombre}</td>
+          <td>${e.email}</td>
+          <td>${e.rol || '-'}</td>
+          <td>${e.telefono || '-'}</td>
+          <td>${e.dni || '-'}</td>
+          <td>${e.activo ? '✅' : '❌'}</td>
+        </tr>`;
+      });
+      
+      html += '</table>';
+      document.getElementById('tabla').innerHTML = html;
+    }
+  </script>
+</body>
+</html>

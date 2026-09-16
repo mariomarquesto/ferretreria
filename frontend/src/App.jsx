@@ -13,6 +13,7 @@ import Marcas from './pages/admin/Marcas.jsx';
 import Compras from './pages/admin/Compras.jsx';
 import Proveedores from './pages/admin/Proveedores.jsx';
 import Clientes from './pages/admin/Clientes.jsx';
+import Empleados from './pages/admin/Empleados.jsx';
 import Gastos from './pages/admin/Gastos.jsx';
 import Reportes from './pages/admin/Reportes.jsx';
 
@@ -39,6 +40,7 @@ export default function App() {
         <Route path="compras" element={<Compras />} />
         <Route path="proveedores" element={<Proveedores />} />
         <Route path="clientes" element={<Clientes />} />
+        <Route path="empleados" element={<Empleados />} />
         <Route path="gastos" element={<Gastos />} />
         <Route path="reportes" element={<Reportes />} />
       </Route>
