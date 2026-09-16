@@ -700,7 +700,7 @@ Este proyecto está bajo la licencia **MIT**. Ver [LICENSE](LICENSE) para más d
 
 ## 👨‍💻 Autor
 
-**Mario Marquesto**
+**Mario Marquestó**
 
 - GitHub: [@mariomarquesto](https://github.com/mariomarquesto)
 - Repositorio: [ferretreria](https://github.com/mariomarquesto/ferretreria)
