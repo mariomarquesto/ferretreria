@@ -2,22 +2,27 @@
 
 # 🔧 Ferretería — Sistema de Gestión Integral
 
-**ERP ligero especializado en ferretería con panel administrativo, punto de venta y tienda pública.**
+**ERP ligero especializado en ferretería con panel administrativo, punto de venta y control total de inventario.**
 
 [![Node.js](https://img.shields.io/badge/Node.js-20.x-339933?style=flat-square&logo=node.js&logoColor=white)](https://nodejs.org/)
+[![Express](https://img.shields.io/badge/Express-4.x-000000?style=flat-square&logo=express&logoColor=white)](https://expressjs.com/)
 [![React](https://img.shields.io/badge/React-18.x-61DAFB?style=flat-square&logo=react&logoColor=black)](https://react.dev/)
+[![Vite](https://img.shields.io/badge/Vite-5.x-646CFF?style=flat-square&logo=vite&logoColor=white)](https://vitejs.dev/)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-18-4169E1?style=flat-square&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
 [![TailwindCSS](https://img.shields.io/badge/TailwindCSS-4.x-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
 [![License](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)](LICENSE)
 [![Status](https://img.shields.io/badge/Status-En%20desarrollo-orange?style=flat-square)]()
 
+[Descripción](#-descripción) · [Capturas](#-capturas-de-pantalla) · [Instalación](#-instalación) · [API](#-api-reference) · [Roadmap](#-roadmap)
+
 </div>
 
 ---
 
-## 📋 Tabla de contenidos
+## 📖 Tabla de contenidos
 
 - [Descripción](#-descripción)
+- [Capturas de pantalla](#-capturas-de-pantalla)
 - [Características](#-características)
 - [Stack tecnológico](#-stack-tecnológico)
 - [Arquitectura](#-arquitectura)
@@ -36,24 +41,154 @@
 
 ## 🎯 Descripción
 
-**Ferretería** es un sistema de gestión completo diseñado específicamente para las necesidades de una ferretería moderna. Combina la potencia de un **ERP** con la simplicidad de un punto de venta tradicional, ofreciendo:
-
-- **Control total de inventario** con soporte para múltiples unidades de medida (unidades, metros, kilos, packs, cajas)
-- **Punto de venta (POS)** rápido e intuitivo con lector de código de barras
-- **Gestión de compras** con actualización automática de stock y precios
-- **Reportes avanzados** con KPIs en tiempo real
-- **Dashboard administrativo** con métricas clave del negocio
-- **Tienda pública** para clientes finales *(próximamente)*
+**Ferretería** es un sistema de gestión completo diseñado específicamente para las necesidades de una ferretería moderna. Combina la potencia de un **ERP** con la simplicidad de un punto de venta tradicional.
 
 ### 💡 ¿Por qué este sistema?
 
 La mayoría de los ERP comerciales son **caros, complejos y genéricos**. Este sistema fue diseñado desde cero pensando en las particularidades de una ferretería:
 
-- Venta fraccionada (2.5 metros de cable, 1.75 kg de clavos)
-- Múltiples presentaciones (pack x100, caja x50, unidad suelta)
-- Actualización automática de precios de compra
-- Kardex completo para auditoría
-- Cálculo de ganancia neta real (ventas − CMV − gastos)
+- ✅ **Venta fraccionada**: 2.5 metros de cable, 1.75 kg de clavos
+- ✅ **Múltiples presentaciones**: pack x100, caja x50, unidad suelta
+- ✅ **Actualización automática** de precios de compra
+- ✅ **Kardex completo** para auditoría de movimientos
+- ✅ **Cálculo de ganancia neta real** (ventas − CMV − gastos)
+- ✅ **Alertas inteligentes**: stock bajo mínimo, productos estancados
+
+---
+
+## 📸 Capturas de pantalla
+
+### 🏠 Panel de Administración
+
+Vista general del negocio con los KPIs más importantes: ventas del día, ventas del mes, ganancia neta, gastos, valor del inventario, alertas de stock bajo, productos estancados y ranking de productos más vendidos.
+
+![Panel de Administración](docs/screenshots/dashboard.png)
+
+---
+
+### 🛒 Punto de Venta (POS)
+
+Interfaz optimizada para el mostrador con buscador instantáneo, lector de código de barras, grilla de productos con stock en tiempo real y carrito editable antes de cobrar.
+
+![Punto de Venta](docs/screenshots/pos.png)
+
+**Características destacadas:**
+- 🔍 Búsqueda con debounce (250ms) por nombre, código o código de barras
+- 📷 Lector de código de barras: escaneás y Enter agrega directo
+- 📦 Soporte para unidades (`u.`, `m`, `kg`) y presentaciones (`pack x100`)
+- ✏️ Carrito 100% editable: cantidades, precios, eliminación de items
+- 💳 Múltiples formas de pago con íconos
+
+---
+
+### 💰 Gestión de Ventas
+
+Historial completo de ventas con filtros por estado, búsqueda por cliente o vendedor, y cálculo automático de ganancia por venta.
+
+![Ventas](docs/screenshots/ventas.png)
+
+**Cada venta muestra:**
+- Número único autocorrelativo (`V-00000035`)
+- Fecha y hora
+- Cliente (o "Consumidor final")
+- Forma de pago con ícono
+- Cantidad de items
+- Total y ganancia calculada automáticamente
+- Estado con badge de color
+- Acciones: Ver detalle, Anular
+
+---
+
+### 📦 Catálogo de Productos
+
+ABM completo con categoría, marca, presentación, precios de compra/venta, existencias, ubicación física y alertas de stock bajo.
+
+![Productos](docs/screenshots/productos.png)
+
+**Cada producto incluye:**
+- Código interno (`P00020`) y código de barras
+- Nombre y descripción
+- Categoría y marca con relación
+- Precio de compra y venta
+- Existencias con badge coloreado (verde/rojo según stock mínimo)
+- Presentación (`Unidad`, `Pack x100`, `Kilogramo`, etc.)
+- Ubicación física (`Pasillo E - Estante 10`)
+
+---
+
+### 🏷️ Categorías
+
+Organización del catálogo por categorías con contador de productos activos en cada una.
+
+![Categorías](docs/screenshots/categorias.png)
+
+**Categorías incluidas:**
+- Construcción → Cemento, arena, ladrillos
+- Electricidad → Cables, llaves térmicas, tomas
+- Fijaciones → Tornillos, tarugos, clavos
+- Herramientas eléctricas → Taladros, amoladoras, sierras
+- Herramientas manuales → Martillos, destornilladores, llaves
+- Jardín → Mangueras, palas, semillas
+- Limpieza → Artículos de limpieza
+- Pinturería → Pinturas, rodillos, pinceles
+- Plomería → Caños, conexiones, grifería
+
+---
+
+### 🏭 Marcas
+
+Gestión de marcas con visualización del catálogo por fabricante.
+
+![Marcas](docs/screenshots/marcas.png)
+
+**Marcas incluidas:** Black+Decker, Bosch, Sica, Sika, Stanley, Tigre, Truper, Weber.
+
+---
+
+### 📥 Gestión de Compras
+
+Registro de compras a proveedores con actualización automática de stock y precios de compra vía triggers de base de datos.
+
+![Compras](docs/screenshots/compras.png)
+
+**Estados soportados:**
+- 🟢 `recibida` → Stock sumado automáticamente
+- 🔵 `pagada` → Pago confirmado
+- 🟡 `pendiente` → En tránsito
+- 🔴 `anulada` → Stock revertido
+
+**Acciones:** Ver detalle, Pagar, Anular
+
+---
+
+### 🚚 Proveedores
+
+Directorio de proveedores con CUIT, contacto, historial de compras y monto total comprado.
+
+![Proveedores](docs/screenshots/proveedores.png)
+
+**Cada proveedor muestra:**
+- Nombre y contacto
+- CUIT
+- Teléfono y email
+- Cantidad de compras realizadas
+- Monto total comprado
+
+---
+
+### 👥 Clientes
+
+Base de clientes con CUIT/DNI, contacto, historial de compras, total comprado y saldo de cuenta corriente.
+
+![Clientes](docs/screenshots/clientes.png)
+
+**Cada cliente muestra:**
+- Nombre y email
+- CUIT/DNI
+- Teléfono
+- Cantidad de compras
+- Total comprado (en verde)
+- Saldo (en rojo si debe)
 
 ---
 
@@ -140,10 +275,10 @@ La mayoría de los ERP comerciales son **caros, complejos y genéricos**. Este s
 | **Recharts** | 2.x | Gráficos |
 
 ### Base de datos
-- 19 tablas relacionales
-- 3 vistas materializadas para KPIs
-- 5 triggers automáticos (kardex, updated_at)
-- Índices GIN para búsqueda full-text
+- **19 tablas** relacionales
+- **3 vistas materializadas** para KPIs
+- **5 triggers** automáticos (kardex, updated_at)
+- **Índices GIN** para búsqueda full-text
 - Soporte para cantidades decimales (`NUMERIC(12,3)`)
 
 ---
@@ -191,92 +326,44 @@ La mayoría de los ERP comerciales son **caros, complejos y genéricos**. Este s
 ```
 ferreteria/
 │
+├── docs/
+│   └── screenshots/                  # Capturas de pantalla
+│       ├── dashboard.png
+│       ├── pos.png
+│       ├── ventas.png
+│       ├── productos.png
+│       ├── categorias.png
+│       ├── marcas.png
+│       ├── compras.png
+│       ├── proveedores.png
+│       └── clientes.png
+│
 ├── backend/                          # API REST
 │   ├── src/
-│   │   ├── config/
-│   │   │   ├── db.js                 # Pool de conexiones + transaction
-│   │   │   └── env.js                # Variables de entorno validadas
-│   │   │
+│   │   ├── config/                   # Configuración (env, db)
 │   │   ├── controllers/              # Manejo de req/res
-│   │   │   ├── auth.controller.js
-│   │   │   ├── productos.controller.js
-│   │   │   ├── ventas.controller.js
-│   │   │   └── ...
-│   │   │
-│   │   ├── db/
-│   │   │   ├── migrations/           # Migraciones SQL
-│   │   │   │   ├── 001_init.sql
-│   │   │   │   ├── 002_triggers.sql
-│   │   │   │   ├── 003_views.sql
-│   │   │   │   └── 004_indexes.sql
-│   │   │   ├── seeds/                # Datos iniciales
-│   │   │   └── migrate.js            # Runner de migraciones
-│   │   │
-│   │   ├── middlewares/
-│   │   │   ├── auth.js               # verificarToken, soloAdmin
-│   │   │   └── errorHandler.js       # Manejo centralizado de errores
-│   │   │
+│   │   ├── db/                       # Migraciones y seeders
+│   │   ├── middlewares/              # Auth, errores
 │   │   ├── models/                   # Capa de datos (CRUD)
-│   │   │   ├── BaseModel.js          # Clase base con CRUD genérico
-│   │   │   ├── Producto.js
-│   │   │   ├── Venta.js
-│   │   │   └── ...
-│   │   │
 │   │   ├── routes/                   # Endpoints
-│   │   │   ├── auth.routes.js
-│   │   │   ├── productos.routes.js
-│   │   │   └── ...
-│   │   │
-│   │   ├── services/                 # Lógica de negocio compleja
-│   │   │   ├── ventas.service.js     # Transacciones de venta
-│   │   │   ├── compras.service.js
-│   │   │   └── kpis.service.js
-│   │   │
-│   │   └── index.js                  # Entry point del servidor
-│   │
-│   ├── .env.example                  # Template de variables
-│   ├── .gitignore
+│   │   ├── services/                 # Lógica de negocio
+│   │   └── index.js                  # Entry point
+│   ├── .env.example
 │   └── package.json
 │
 ├── frontend/                         # React + Vite
 │   ├── src/
-│   │   ├── components/
-│   │   │   ├── layout/               # Sidebar, Header, AdminLayout
-│   │   │   └── ui/                   # Button, Card, Modal, Table, Badge
-│   │   │
-│   │   ├── contexts/
-│   │   │   └── AuthContext.jsx       # Estado global de auth
-│   │   │
-│   │   ├── pages/
-│   │   │   ├── Login.jsx
-│   │   │   └── admin/
-│   │   │       ├── Dashboard.jsx
-│   │   │       ├── POS.jsx
-│   │   │       ├── Ventas.jsx
-│   │   │       ├── Productos.jsx
-│   │   │       ├── Compras.jsx
-│   │   │       ├── Gastos.jsx
-│   │   │       ├── Clientes.jsx
-│   │   │       ├── Proveedores.jsx
-│   │   │       └── Reportes.jsx
-│   │   │
-│   │   ├── services/
-│   │   │   └── api.js                # Axios con interceptors
-│   │   │
-│   │   ├── utils/
-│   │   │   ├── format.js             # formatMoney, formatDate
-│   │   │   └── unidades.js           # fmtUnidad, UNIDAD_LABEL
-│   │   │
+│   │   ├── components/               # UI reutilizable
+│   │   ├── contexts/                 # Auth context
+│   │   ├── pages/                    # Vistas
+│   │   ├── services/                 # Axios API client
+│   │   ├── utils/                    # Helpers
 │   │   ├── App.jsx
-│   │   ├── main.jsx
-│   │   └── index.css
-│   │
+│   │   └── main.jsx
 │   ├── .env.example
-│   ├── .gitignore
-│   ├── vite.config.js
 │   └── package.json
 │
-├── .gitignore                        # Global
+├── .gitignore
 ├── README.md
 └── LICENSE
 ```
@@ -556,6 +643,7 @@ REFRESH MATERIALIZED VIEW CONCURRENTLY mv_top_productos;
 - [x] Soporte de unidades (UN, MT, KG) y presentaciones (pack, caja)
 - [x] Login con JWT
 - [x] Dashboard con gráficos
+- [x] Screenshots del sistema
 
 ### ⏳ En progreso
 - [ ] Tienda pública (catálogo + carrito + checkout)
@@ -607,30 +695,6 @@ Este es un proyecto personal, pero las contribuciones son bienvenidas.
 ## 📄 Licencia
 
 Este proyecto está bajo la licencia **MIT**. Ver [LICENSE](LICENSE) para más detalles.
-
-```
-MIT License
-
-Copyright (c) 2026 Mario Marquesto
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-```
 
 ---
 
