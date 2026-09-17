@@ -2,6 +2,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import Login from './pages/admin/Login.jsx';
 import ProtectedRoute from './components/ProtectedRoute.jsx';
 import AdminLayout from './components/layout/AdminLayout.jsx';
+import EmpleadoLayout from './components/layout/EmpleadoLayout.jsx';
 
 // Páginas admin
 import Dashboard from './pages/admin/Dashboard.jsx';
@@ -17,11 +18,20 @@ import Empleados from './pages/admin/Empleados.jsx';
 import Gastos from './pages/admin/Gastos.jsx';
 import Reportes from './pages/admin/Reportes.jsx';
 
+// Páginas empleado
+import EmpleadoDashboard from './pages/empleado/Dashboard.jsx';
+import EmpleadoPOS from './pages/empleado/POS.jsx';
+import EmpleadoMisVentas from './pages/empleado/MisVentas.jsx';
+import EmpleadoProductos from './pages/empleado/Productos.jsx';
+
 export default function App() {
   return (
     <Routes>
       <Route path="/login" element={<Login />} />
 
+      {/* ============================================================ */}
+      {/* ADMIN */}
+      {/* ============================================================ */}
       <Route
         path="/admin"
         element={
@@ -45,8 +55,29 @@ export default function App() {
         <Route path="reportes" element={<Reportes />} />
       </Route>
 
-      <Route path="/" element={<Navigate to="/admin/dashboard" replace />} />
-      <Route path="*" element={<Navigate to="/admin/dashboard" replace />} />
+      {/* ============================================================ */}
+      {/* EMPLEADO */}
+      {/* ============================================================ */}
+      <Route
+        path="/empleado"
+        element={
+          <ProtectedRoute>
+            <EmpleadoLayout />
+          </ProtectedRoute>
+        }
+      >
+        <Route index element={<Navigate to="/empleado/dashboard" replace />} />
+        <Route path="dashboard" element={<EmpleadoDashboard />} />
+        <Route path="pos" element={<EmpleadoPOS />} />
+        <Route path="mis-ventas" element={<EmpleadoMisVentas />} />
+        <Route path="productos" element={<EmpleadoProductos />} />
+      </Route>
+
+      {/* ============================================================ */}
+      {/* REDIRECTS */}
+      {/* ============================================================ */}
+      <Route path="/" element={<Navigate to="/login" replace />} />
+      <Route path="*" element={<Navigate to="/login" replace />} />
     </Routes>
   );
 }

@@ -17,8 +17,17 @@ export default function Login() {
     setLoading(true);
 
     try {
-      await login(email, password);
-      navigate('/admin/dashboard');
+      const usuario = await login(email, password);
+
+      // Redirigir según el rol
+      if (usuario.rol === 'admin') {
+        navigate('/admin/dashboard');
+      } else if (usuario.rol === 'vendedor' || usuario.rol === 'almacen') {
+        navigate('/empleado/dashboard');
+      } else {
+        // Cliente u otro rol → al inicio (por ahora al login)
+        navigate('/login');
+      }
     } catch (err) {
       setError(err.response?.data?.error || 'Error al iniciar sesión');
     } finally {
@@ -35,7 +44,7 @@ export default function Login() {
             <span className="text-4xl">🔧</span>
           </div>
           <h1 className="text-3xl font-bold text-white">Ferretería</h1>
-          <p className="text-blue-200 mt-1">Panel de Administración</p>
+          <p className="text-blue-200 mt-1">Sistema de Gestión</p>
         </div>
 
         {/* Card login */}
@@ -87,9 +96,13 @@ export default function Login() {
           </form>
 
           <div className="mt-6 pt-6 border-t border-gray-200 text-center text-xs text-gray-500">
-            Credenciales por defecto: <br />
-            <code className="bg-gray-100 px-2 py-1 rounded mt-2 inline-block">
-              admin@ferreteria.com / admin123
+            <p className="font-medium mb-2">Credenciales de prueba</p>
+            <code className="bg-gray-100 px-2 py-1 rounded inline-block mb-1">
+              Admin: admin@ferreteria.com / admin123
+            </code>
+            <br />
+            <code className="bg-gray-100 px-2 py-1 rounded inline-block">
+              Empleado: carlos@ferreteria.com / empleado123
             </code>
           </div>
         </div>
