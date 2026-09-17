@@ -53,6 +53,7 @@ La mayoría de los ERP comerciales son **caros, complejos y genéricos**. Este s
 - ✅ **Kardex completo** para auditoría de movimientos
 - ✅ **Cálculo de ganancia neta real** (ventas − CMV − gastos)
 - ✅ **Alertas inteligentes**: stock bajo mínimo, productos estancados
+- ✅ **CRM integrado** con segmentación automática de clientes
 
 ---
 
@@ -192,6 +193,78 @@ Base de clientes con CUIT/DNI, contacto, historial de compras, total comprado y 
 
 ---
 
+### 🎯 CRM — Gestión de Clientes
+
+Sistema completo de gestión de relaciones con clientes (CRM) con **segmentación automática** por actividad y valor.
+
+#### Dashboard del CRM
+
+Vista general con KPIs de segmentación: clientes nuevos, activos, tibios, fríos e inactivos. Clasificación por valor (VIP, frecuentes, ocasionales, esporádicos) y resumen de tareas y comunicaciones.
+
+![Dashboard CRM](docs/screenshots/crm-dashboard.png)
+
+**Características destacadas:**
+- 📊 Segmentación automática por **actividad** (última compra)
+- 💎 Segmentación automática por **valor** (total comprado)
+- 📋 Contador de tareas pendientes, vencidas y para hoy
+- 💬 Resumen de comunicaciones (últimos 7 días)
+- 🏆 Top 10 clientes por facturación
+- ⚠️ Detección de clientes a contactar (+60 días sin comprar)
+
+---
+
+#### Lista de Clientes con Segmentación
+
+Filtros rápidos por segmento, búsqueda por nombre/email/teléfono/CUIT, y vista de métricas por cliente.
+
+![Clientes CRM](docs/screenshots/crm-clientes.png)
+
+**Cada cliente muestra:**
+- Badge de **actividad**: `🆕 Nuevo`, `✅ Activo`, `🌤️ Tibio`, `❄️ Frío`, `💤 Inactivo`
+- Badge de **valor**: `👑 VIP`, `⭐ Frecuente`, `🔹 Ocasional`, `🔸 Esporádico`
+- Total comprado, cantidad de compras y última compra
+- Acceso directo a la ficha completa con historial
+
+**Filtros disponibles:**
+- Por segmento de actividad
+- Por segmento de valor
+- Por tipo de cliente (minorista, mayorista, empresa, profesional)
+- Búsqueda de texto libre
+
+---
+
+#### Tareas y Recordatorios
+
+Gestión de tareas con prioridades, asignación de clientes y seguimiento.
+
+![Tareas CRM](docs/screenshots/crm-tareas.png)
+
+**Características:**
+- ➕ Crear tareas con título, descripción, cliente y prioridad
+- 🎯 Prioridades: 🚨 Urgente · 🔴 Alta · 🟡 Media · ⚪ Baja
+- 📅 Fecha programada con alertas de vencimiento
+- ✅ Marcar tareas como completadas
+- 🔍 Filtros por estado y prioridad
+- 👤 Asociación opcional a cliente
+
+---
+
+#### Ficha del Cliente
+
+Ficha completa con toda la información del cliente:
+
+- 📊 KPIs: total comprado, cantidad de compras, ticket promedio, última compra
+- 📝 Datos completos (email, teléfono, CUIT/DNI, dirección, redes sociales)
+- 🛒 Historial de compras completo
+- 🏆 Productos más comprados
+- 📋 Tareas asociadas
+- 💬 Historial de comunicaciones
+- 📝 Notas internas
+- 📱 Botón directo de WhatsApp con mensaje pre-armado
+- ✉️ Botón directo de Email
+
+---
+
 ## ✨ Características
 
 ### 🛒 Punto de Venta (POS)
@@ -242,6 +315,15 @@ Base de clientes con CUIT/DNI, contacto, historial de compras, total comprado y 
 - **Ranking de vendedores**
 - Exportación a CSV
 
+### 🎯 CRM — Gestión de Clientes
+- Segmentación automática por **actividad** (nuevo, activo, tibio, frío, inactivo)
+- Segmentación automática por **valor** (VIP, frecuente, ocasional, esporádico)
+- Ficha completa con historial, productos, tareas y comunicaciones
+- Sistema de tareas con prioridades y recordatorios
+- Notas internas por cliente
+- Botón directo de WhatsApp y Email
+- Dashboard con KPIs de segmentación
+
 ### 👥 Clientes y Proveedores
 - CRUD completo con validación de duplicados
 - Historial de compras/ventas por cliente/proveedor
@@ -275,8 +357,8 @@ Base de clientes con CUIT/DNI, contacto, historial de compras, total comprado y 
 | **Recharts** | 2.x | Gráficos |
 
 ### Base de datos
-- **19 tablas** relacionales
-- **3 vistas materializadas** para KPIs
+- **26 tablas** relacionales
+- **4 vistas materializadas** para KPIs
 - **5 triggers** automáticos (kardex, updated_at)
 - **Índices GIN** para búsqueda full-text
 - Soporte para cantidades decimales (`NUMERIC(12,3)`)
@@ -293,7 +375,7 @@ Base de clientes con CUIT/DNI, contacto, historial de compras, total comprado y 
 │  │   /admin     │  │    /pos      │  │    /shop     │     │
 │  │  Dashboard   │  │  Punto de    │  │   Tienda     │     │
 │  │  Productos   │  │    Venta     │  │   Pública    │     │
-│  │  Reportes    │  │              │  │              │     │
+│  │  CRM         │  │              │  │              │     │
 │  └──────────────┘  └──────────────┘  └──────────────┘     │
 └─────────────────────────────────────────────────────────────┘
                             ↓ REST + JWT
@@ -314,7 +396,7 @@ Base de clientes con CUIT/DNI, contacto, historial de compras, total comprado y 
 │                                                             │
 │  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐     │
 │  │   Tablas     │  │    Vistas    │  │   Triggers   │     │
-│  │  (19 tablas) │  │ Materializadas│  │  (kardex)    │     │
+│  │  (26 tablas) │  │ Materializadas│  │  (kardex)    │     │
 │  └──────────────┘  └──────────────┘  └──────────────┘     │
 └─────────────────────────────────────────────────────────────┘
 ```
@@ -336,7 +418,10 @@ ferreteria/
 │       ├── marcas.png
 │       ├── compras.png
 │       ├── proveedores.png
-│       └── clientes.png
+│       ├── clientes.png
+│       ├── crm-dashboard.png
+│       ├── crm-clientes.png
+│       └── crm-tareas.png
 │
 ├── backend/                          # API REST
 │   ├── src/
@@ -347,6 +432,7 @@ ferreteria/
 │   │   ├── models/                   # Capa de datos (CRUD)
 │   │   ├── routes/                   # Endpoints
 │   │   ├── services/                 # Lógica de negocio
+│   │   │   └── marketing/            # Servicios del CRM
 │   │   └── index.js                  # Entry point
 │   ├── .env.example
 │   └── package.json
@@ -355,7 +441,10 @@ ferreteria/
 │   ├── src/
 │   │   ├── components/               # UI reutilizable
 │   │   ├── contexts/                 # Auth context
-│   │   ├── pages/                    # Vistas
+│   │   ├── pages/
+│   │   │   ├── admin/                # Dashboard, POS, Productos...
+│   │   │   ├── admin/crm/            # Dashboard, Clientes, Tareas
+│   │   │   └── empleado/             # Panel de empleado
 │   │   ├── services/                 # Axios API client
 │   │   ├── utils/                    # Helpers
 │   │   ├── App.jsx
@@ -461,6 +550,7 @@ Esto crea:
 - **8 marcas** (Truper, Bosch, Stanley, etc.)
 - **20 productos** de ejemplo
 - **3 proveedores** y **3 clientes**
+- **5 plantillas de mensajes** para WhatsApp
 
 ---
 
@@ -525,6 +615,8 @@ Password: admin123
 | `POST` | `/api/auth/login` | Iniciar sesión |
 | `POST` | `/api/auth/register` | Registro de cliente |
 | `GET` | `/api/auth/me` | Datos del usuario actual |
+| `GET` | `/api/auth/empleados` | Listar empleados |
+| `POST` | `/api/auth/empleados` | Crear empleado |
 
 ### Productos
 
@@ -536,30 +628,22 @@ Password: admin123
 | `PUT` | `/api/productos/:id` | Actualizar |
 | `DELETE` | `/api/productos/:id` | Eliminar (soft) |
 | `GET` | `/api/productos/stock-bajo` | Alertas de stock |
-| `POST` | `/api/productos/:id/stock` | Ajustar stock |
 
 ### Ventas
 
 | Método | Endpoint | Descripción |
 |--------|----------|-------------|
 | `GET` | `/api/ventas` | Listar con filtros |
-| `GET` | `/api/ventas/:id` | Detalle con items |
 | `POST` | `/api/ventas` | Registrar venta |
 | `POST` | `/api/ventas/:id/anular` | Anular y devolver stock |
-| `GET` | `/api/ventas/estadisticas/resumen` | Totales |
-| `GET` | `/api/ventas/estadisticas/top-productos` | Ranking |
-| `GET` | `/api/ventas/estadisticas/forma-pago` | Por forma de pago |
-| `GET` | `/api/ventas/estadisticas/vendedor` | Por vendedor |
 
 ### Compras
 
 | Método | Endpoint | Descripción |
 |--------|----------|-------------|
 | `GET` | `/api/compras` | Listar |
-| `GET` | `/api/compras/:id` | Detalle |
 | `POST` | `/api/compras` | Registrar compra |
 | `POST` | `/api/compras/:id/anular` | Anular y revertir stock |
-| `POST` | `/api/compras/:id/pagar` | Marcar pagada |
 
 ### Reportes
 
@@ -567,11 +651,22 @@ Password: admin123
 |--------|----------|-------------|
 | `GET` | `/api/reportes/dashboard` | KPIs principales |
 | `GET` | `/api/reportes/rentabilidad` | Análisis de márgenes |
-| `GET` | `/api/reportes/utilidad-productos` | Ranking por ganancia |
 | `GET` | `/api/reportes/flujo-caja` | Últimos 12 meses |
-| `GET` | `/api/reportes/kardex/:id` | Movimientos de producto |
 
-> 📖 **Documentación completa**: próximamente con Swagger UI
+### CRM
+
+| Método | Endpoint | Descripción |
+|--------|----------|-------------|
+| `GET` | `/api/marketing/dashboard` | Dashboard del CRM |
+| `GET` | `/api/marketing/clientes` | Lista con segmentación |
+| `GET` | `/api/marketing/clientes/:id` | Ficha completa |
+| `PUT` | `/api/marketing/clientes/:id` | Actualizar cliente |
+| `POST` | `/api/marketing/clientes/:id/notas` | Agregar nota |
+| `GET` | `/api/marketing/tareas` | Listar tareas |
+| `POST` | `/api/marketing/tareas` | Crear tarea |
+| `PUT` | `/api/marketing/tareas/:id/completar` | Completar tarea |
+| `DELETE` | `/api/marketing/tareas/:id` | Eliminar tarea |
+| `GET` | `/api/marketing/plantillas` | Plantillas de mensajes |
 
 ---
 
@@ -596,11 +691,13 @@ unidades ────┘                │
                               ├── alertas
                               │
 clientes ────┬── ventas       │
-             └── (cta cte)    │
+             ├── cliente_comunicaciones
+             ├── cliente_tareas
+             └── cliente_pipeline
                               │
 tipos_gasto ── gastos         │
-                              │
-                              └── (kardex completo)
+campanas ───── campana_cliente│
+publicaciones_redes ──────────┘
 ```
 
 ### Triggers automáticos
@@ -617,11 +714,7 @@ tipos_gasto ── gastos         │
 - `mv_top_productos` → Top 10 productos vendidos (30 días)
 - `mv_productos_estancados` → Productos sin movimiento (+30 días)
 - `mv_resumen_diario` → Resumen de ventas/compras/gastos por día (365 días)
-
-Refrescar con:
-```sql
-REFRESH MATERIALIZED VIEW CONCURRENTLY mv_top_productos;
-```
+- `v_clientes_segmentados` → Clientes con segmentación automática
 
 ---
 
@@ -629,7 +722,7 @@ REFRESH MATERIALIZED VIEW CONCURRENTLY mv_top_productos;
 
 ### ✅ Completado
 - [x] Estructura del proyecto
-- [x] Base de datos con 19 tablas
+- [x] Base de datos con 26 tablas
 - [x] Migraciones y seeders
 - [x] Modelos con CRUD genérico
 - [x] API REST de productos, categorías, marcas
@@ -643,23 +736,27 @@ REFRESH MATERIALIZED VIEW CONCURRENTLY mv_top_productos;
 - [x] Soporte de unidades (UN, MT, KG) y presentaciones (pack, caja)
 - [x] Login con JWT
 - [x] Dashboard con gráficos
+- [x] Sistema multi-rol (admin + empleado)
+- [x] Gestión de empleados
+- [x] **CRM completo** con segmentación automática
+- [x] **Sistema de tareas y recordatorios**
+- [x] **Ficha del cliente con historial**
 - [x] Screenshots del sistema
 
 ### ⏳ En progreso
+- [ ] WhatsApp masivo / Campañas
+- [ ] Instagram automático
 - [ ] Tienda pública (catálogo + carrito + checkout)
-- [ ] Gestión completa de usuarios (roles)
 - [ ] Impresión de tickets (térmica 58mm/80mm)
 - [ ] Instalador para Windows (Inno Setup)
 
 ### 🔮 Futuro
 - [ ] Facturación electrónica (AFIP)
 - [ ] Integración con MercadoPago
+- [ ] TikTok automático
 - [ ] PWA (funcionar offline)
 - [ ] App móvil (React Native)
-- [ ] Backup automático a la nube
 - [ ] Multi-sucursal
-- [ ] Proveedores con cuenta corriente completa
-- [ ] Descuentos por producto y por categoría
 - [ ] Notificaciones en tiempo real (Socket.IO)
 
 ---
