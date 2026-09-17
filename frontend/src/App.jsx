@@ -18,6 +18,12 @@ import Empleados from './pages/admin/Empleados.jsx';
 import Gastos from './pages/admin/Gastos.jsx';
 import Reportes from './pages/admin/Reportes.jsx';
 
+// Páginas CRM
+import CRMDashboard from './pages/admin/crm/Dashboard.jsx';
+import CRMClientes from './pages/admin/crm/Clientes.jsx';
+import CRMTareas from './pages/admin/crm/Tareas.jsx';
+import FichaCliente from './pages/admin/crm/FichaCliente.jsx';
+
 // Páginas empleado
 import EmpleadoDashboard from './pages/empleado/Dashboard.jsx';
 import EmpleadoPOS from './pages/empleado/POS.jsx';
@@ -53,6 +59,12 @@ export default function App() {
         <Route path="empleados" element={<Empleados />} />
         <Route path="gastos" element={<Gastos />} />
         <Route path="reportes" element={<Reportes />} />
+
+        {/* CRM */}
+        <Route path="crm" element={<CRMDashboard />} />
+        <Route path="crm/clientes" element={<CRMClientes />} />
+        <Route path="crm/tareas" element={<CRMTareas />} />
+        <Route path="crm/clientes/:id" element={<FichaCliente />} />  
       </Route>
 
       {/* ============================================================ */}

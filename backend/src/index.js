@@ -15,8 +15,7 @@ import ventasRoutes from './routes/ventas.routes.js';
 import gastosRoutes from './routes/gastos.routes.js';
 import reportesRoutes from './routes/reportes.routes.js';
 import authRoutes from './routes/auth.routes.js';
-
-
+import marketingRoutes from './routes/marketing.routes.js';
 
 const app = express();
 
@@ -44,8 +43,7 @@ app.use('/api/ventas', ventasRoutes);
 app.use('/api/gastos', gastosRoutes);
 app.use('/api/reportes', reportesRoutes);
 app.use('/api/auth', authRoutes);
-
-
+app.use('/api/marketing', marketingRoutes);
 
 app.use(notFound);
 app.use(errorHandler);

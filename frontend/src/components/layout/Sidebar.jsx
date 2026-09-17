@@ -10,6 +10,7 @@ const menuItems = [
   { to: '/admin/compras', label: 'Compras', icon: '📥' },
   { to: '/admin/proveedores', label: 'Proveedores', icon: '🚚' },
   { to: '/admin/clientes', label: 'Clientes', icon: '👤' },
+  { to: '/admin/crm', label: 'CRM', icon: '🎯' },
   { to: '/admin/empleados', label: 'Empleados', icon: '👥' },
   { to: '/admin/gastos', label: 'Gastos', icon: '💸' },
   { to: '/admin/reportes', label: 'Reportes', icon: '📈' },
